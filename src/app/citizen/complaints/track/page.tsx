@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useAuth } from '@/lib/contexts/AuthContext';
 import { Search, AlertCircle, CheckCircle, Clock, FileText, ArrowRight, Shield } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
 import Link from 'next/link';
 
-export default function TrackComplaint() {
+function TrackComplaintContent() {
   const searchParams = useSearchParams();
   const initialNumber = searchParams.get('number') || '';
   
@@ -255,5 +255,20 @@ export default function TrackComplaint() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function TrackComplaint() {
+  return (
+    <Suspense fallback={
+      <div className="max-w-4xl mx-auto mt-8 text-center p-8">
+        <div className="animate-pulse flex flex-col items-center">
+          <div className="h-8 bg-gray-200 rounded w-64 mb-4"></div>
+          <div className="h-4 bg-gray-200 rounded w-96"></div>
+        </div>
+      </div>
+    }>
+      <TrackComplaintContent />
+    </Suspense>
   );
 }
