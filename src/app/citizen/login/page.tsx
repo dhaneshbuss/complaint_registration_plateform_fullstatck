@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 export default function CitizenLogin() {
   const router = useRouter();
-  const { loginAsCitizen } = useAuth();
+  const { loginAsCitizen, isLiveDb } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   
@@ -18,6 +18,12 @@ export default function CitizenLogin() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    if (!isLiveDb) {
+      setError('Database configuration error. System is offline.');
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -41,6 +47,16 @@ export default function CitizenLogin() {
         <p className="text-gray-500 mt-2">Access your complaints and services</p>
       </div>
 
+      {!isLiveDb && (
+        <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-lg flex items-start text-sm">
+          <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0" />
+          <div>
+            <p className="font-bold">SYSTEM OFFLINE</p>
+            <p className="mt-1 text-xs">Supabase database connection is not configured.</p>
+          </div>
+        </div>
+      )}
+
       {error && (
         <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-lg flex items-center text-sm">
           <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0" />
@@ -58,9 +74,10 @@ export default function CitizenLogin() {
             <input
               type="email"
               required
+              disabled={!isLiveDb}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-black"
+              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-black disabled:opacity-50 disabled:bg-gray-100"
               placeholder="your@email.com"
             />
           </div>
@@ -75,9 +92,10 @@ export default function CitizenLogin() {
             <input
               type="password"
               required
+              disabled={!isLiveDb}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-black"
+              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-black disabled:opacity-50 disabled:bg-gray-100"
               placeholder="••••••••"
             />
           </div>
@@ -85,8 +103,8 @@ export default function CitizenLogin() {
 
         <button
           type="submit"
-          disabled={loading}
-          className="w-full bg-blue-900 text-white py-2 px-4 rounded-lg hover:bg-blue-800 transition-colors focus:ring-4 focus:ring-blue-200 font-medium"
+          disabled={loading || !isLiveDb}
+          className="w-full bg-blue-900 text-white py-2 px-4 rounded-lg hover:bg-blue-800 transition-colors focus:ring-4 focus:ring-blue-200 font-medium disabled:opacity-50 disabled:bg-blue-900"
         >
           {loading ? 'Logging in...' : 'Login'}
         </button>

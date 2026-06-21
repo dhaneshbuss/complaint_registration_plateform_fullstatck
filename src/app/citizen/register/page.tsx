@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 export default function CitizenRegister() {
   const router = useRouter();
-  const { registerCitizen } = useAuth();
+  const { registerCitizen, isLiveDb } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   
@@ -28,6 +28,11 @@ export default function CitizenRegister() {
     e.preventDefault();
     setError('');
     
+    if (!isLiveDb) {
+      setError('Database configuration error. System is offline.');
+      return;
+    }
+
     if (formData.password !== formData.confirm_password) {
       setError('Passwords do not match');
       return;
@@ -65,6 +70,16 @@ export default function CitizenRegister() {
         <p className="text-gray-500 mt-2">Create an account to register complaints online</p>
       </div>
 
+      {!isLiveDb && (
+        <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-lg flex items-start text-sm">
+          <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0" />
+          <div>
+            <p className="font-bold">SYSTEM OFFLINE</p>
+            <p className="mt-1 text-xs">Supabase database connection is not configured.</p>
+          </div>
+        </div>
+      )}
+
       {error && (
         <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-lg flex items-center text-sm">
           <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0" />
@@ -83,9 +98,10 @@ export default function CitizenRegister() {
               type="text"
               name="full_name"
               required
+              disabled={!isLiveDb}
               value={formData.full_name}
               onChange={handleChange}
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-black"
+              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-black disabled:opacity-50 disabled:bg-gray-100"
               placeholder="e.g. Ramesh Kumar"
             />
           </div>
@@ -102,9 +118,10 @@ export default function CitizenRegister() {
               name="mobile"
               required
               pattern="[0-9]{10}"
+              disabled={!isLiveDb}
               value={formData.mobile}
               onChange={handleChange}
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-black"
+              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-black disabled:opacity-50 disabled:bg-gray-100"
               placeholder="10-digit mobile number"
             />
           </div>
@@ -120,9 +137,10 @@ export default function CitizenRegister() {
               type="email"
               name="email"
               required
+              disabled={!isLiveDb}
               value={formData.email}
               onChange={handleChange}
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-black"
+              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-black disabled:opacity-50 disabled:bg-gray-100"
               placeholder="your@email.com"
             />
           </div>
@@ -139,9 +157,10 @@ export default function CitizenRegister() {
               name="password"
               required
               minLength={6}
+              disabled={!isLiveDb}
               value={formData.password}
               onChange={handleChange}
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-black"
+              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-black disabled:opacity-50 disabled:bg-gray-100"
               placeholder="Min 6 characters"
             />
           </div>
@@ -157,9 +176,10 @@ export default function CitizenRegister() {
               type="password"
               name="confirm_password"
               required
+              disabled={!isLiveDb}
               value={formData.confirm_password}
               onChange={handleChange}
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-black"
+              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-black disabled:opacity-50 disabled:bg-gray-100"
               placeholder="Retype password"
             />
           </div>
@@ -167,8 +187,8 @@ export default function CitizenRegister() {
 
         <button
           type="submit"
-          disabled={loading}
-          className="w-full bg-blue-900 text-white py-2 px-4 rounded-lg hover:bg-blue-800 transition-colors focus:ring-4 focus:ring-blue-200 font-medium"
+          disabled={loading || !isLiveDb}
+          className="w-full bg-blue-900 text-white py-2 px-4 rounded-lg hover:bg-blue-800 transition-colors focus:ring-4 focus:ring-blue-200 font-medium disabled:opacity-50 disabled:bg-blue-900"
         >
           {loading ? 'Creating Account...' : 'Register as Citizen'}
         </button>
