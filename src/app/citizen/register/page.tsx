@@ -57,7 +57,12 @@ export default function CitizenRegister() {
         setError('Registration failed. Please try again.');
       }
     } catch (err: any) {
-      setError(err.message || 'An unexpected error occurred');
+      console.error(err);
+      let errMsg = 'An unexpected error occurred during registration.';
+      if (err.message && !err.message.includes('{}') && !err.message.includes('AuthRetryableFetchError')) {
+        errMsg = err.message;
+      }
+      setError(errMsg);
     } finally {
       setLoading(false);
     }
