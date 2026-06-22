@@ -130,9 +130,11 @@ function processMockChatQuery(queryText: string) {
 }
 
 export async function POST(req: Request) {
+  let userQuery = '';
   try {
     const { query } = await req.json();
-    if (!query) {
+    userQuery = query || '';
+    if (!userQuery) {
       return NextResponse.json({ error: 'Query parameter is required' }, { status: 400 });
     }
 
@@ -283,11 +285,6 @@ export async function POST(req: Request) {
     return NextResponse.json(finalResult);
   } catch (error: any) {
     console.error('Chatbot API Error:', error);
-    try {
-      const body = await req.clone().json();
-      return NextResponse.json(processMockChatQuery(body.query || ''));
-    } catch {
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
+    return NextResponse.json(processMockChatQuery(userQuery));
   }
 }
