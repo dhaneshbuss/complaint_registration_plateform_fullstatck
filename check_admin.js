@@ -1,7 +1,8 @@
+require('./load_env');
 const { createClient } = require('@supabase/supabase-js');
 
-const supabaseUrl = 'https://qexxykfjmgfnjeluaehg.supabase.co';
-const supabaseSecret = 'sb_secret_Tz72DGRBYhmlcv8_Mb3OBg_ZmQ6wd-r';
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseSecret = process.env.SUPABASE_SECRET_KEY;
 
 const adminClient = createClient(supabaseUrl, supabaseSecret);
 
