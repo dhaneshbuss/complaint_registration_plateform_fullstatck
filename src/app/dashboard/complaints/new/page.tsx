@@ -39,15 +39,33 @@ export default function NewComplaintPage() {
     }
   }, [currentOfficer]);
 
-  const districts = ['Lucknow', 'Noida', 'Kanpur', 'Varanasi', 'Ghaziabad', 'Prayagraj'];
-  const stationsMap: Record<string, string[]> = {
-    Lucknow: ['Hazratganj', 'Aliganj', 'Gomti Nagar'],
-    Noida: ['Sector 39', 'Sector 58', 'Sector 20'],
-    Kanpur: ['Kalyanpur', 'Swaroop Nagar', 'Barra'],
-    Varanasi: ['Lanka', 'Dashashwamedh', 'Cantonment'],
-    Ghaziabad: ['Indirapuram', 'Kavi Nagar', 'Sahibabad'],
-    Prayagraj: ['Civil Lines', 'Georgetown', 'Colonelganj']
-  };
+  const [districts, setDistricts] = useState<string[]>([]);
+  const [stationsMap, setStationsMap] = useState<Record<string, string[]>>({});
+
+  useEffect(() => {
+    async function loadLocations() {
+      try {
+        const { supabase } = await import('@/lib/supabase/client');
+        if (!supabase) return;
+        
+        const { data: dData } = await supabase.from('districts').select('id, district_name').order('district_name');
+        const { data: sData } = await supabase.from('police_stations').select('station_name, district_id').order('station_name');
+        
+        if (dData && sData) {
+          setDistricts(dData.map(d => d.district_name));
+          
+          const sMap: Record<string, string[]> = {};
+          dData.forEach(d => {
+            sMap[d.district_name] = sData.filter(s => s.district_id === d.id).map(s => s.station_name);
+          });
+          setStationsMap(sMap);
+        }
+      } catch (e) {
+        console.error('Error loading locations:', e);
+      }
+    }
+    loadLocations();
+  }, []);
 
   const categories = [
     'Cyber Crime',

@@ -23,7 +23,7 @@ interface ChartsProps {
 }
 
 export const AnalyticsCharts: React.FC<ChartsProps> = ({ data }) => {
-  const districts = ['Lucknow', 'Noida', 'Kanpur', 'Varanasi', 'Ghaziabad', 'Prayagraj'];
+  const districts = Array.from(new Set(data.map(c => c.district))).filter(Boolean).sort();
   const categories = [
     'Cyber Crime',
     'Women Safety',

@@ -92,7 +92,7 @@ export default function PredictiveAnalyticsPage() {
 
   // 2. High Risk Districts Index calculation
   const districtRiskData = useMemo(() => {
-    const districts = ['Lucknow', 'Noida', 'Kanpur', 'Varanasi', 'Ghaziabad', 'Prayagraj'];
+    const districts = Array.from(new Set(complaints.map(c => c.district))).filter(Boolean).sort();
     
     return districts.map(dist => {
       const districtComplaints = complaints.filter(c => c.district === dist);
