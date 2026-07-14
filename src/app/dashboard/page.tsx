@@ -189,7 +189,7 @@ export default function DashboardPage() {
         <div className="space-y-6">
           
           {/* High Risk Alert Monitor */}
-          <div className="cyber-panel rounded-lg p-5 border border-accent-red/20 shadow-[0_0_15px_rgba(239,68,68,0.05)]">
+          <div className="cyber-panel rounded-lg p-5 border border-accent-red/20 shadow-[0_0_15px_rgba(239,68,68,0.05)] hover:border-accent-red/50 hover:shadow-[0_0_25px_rgba(239,68,68,0.15)] transition-all duration-300">
             <div className="flex justify-between items-center border-b border-slate-900 pb-3 mb-4">
               <h3 className="text-xs font-mono uppercase tracking-wider text-accent-red font-bold flex items-center gap-2">
                 <ShieldAlert className="w-4 h-4 animate-pulse text-accent-red" />
@@ -245,7 +245,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Actionable Pending Dispatch Widget */}
-          <div className="cyber-panel rounded-lg p-5 border border-border-cyber/30">
+          <div className="cyber-panel rounded-lg p-5 border border-border-cyber/30 hover:border-accent-gold/50 hover:shadow-[0_0_20px_rgba(245,158,11,0.1)] transition-all duration-300">
             <h3 className="text-xs font-mono uppercase tracking-wider text-accent-gold font-bold border-b border-slate-900 pb-3 mb-4 flex items-center gap-2">
               <UserCheck className="w-4 h-4 text-accent-gold" />
               AWAITING DISPATCH / REVIEW
@@ -307,7 +307,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Live Incident Stream */}
-          <div className="cyber-panel rounded-lg p-5 border border-border-cyber/30">
+          <div className="cyber-panel rounded-lg p-5 border border-border-cyber/30 hover:border-primary-cyber/60 hover:shadow-[0_0_20px_rgba(0,210,255,0.1)] transition-all duration-300">
             <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-4 flex items-center justify-between border-b border-slate-900 pb-3">
               <span>LIVE INCIDENT STREAM</span>
               <span className="w-1.5 h-1.5 bg-accent-green rounded-full animate-pulse"></span>

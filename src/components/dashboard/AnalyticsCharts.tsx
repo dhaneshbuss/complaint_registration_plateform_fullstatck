@@ -105,7 +105,7 @@ export const AnalyticsCharts: React.FC<ChartsProps> = ({ data }) => {
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         
         {/* Trends chart (AreaChart with Gradient) */}
-        <div className="cyber-panel rounded-lg p-5 border border-border-cyber/30 xl:col-span-2">
+        <div className="cyber-panel rounded-lg p-5 border border-border-cyber/30 xl:col-span-2 hover:border-primary-cyber/60 hover:shadow-[0_0_20px_rgba(0,210,255,0.1)] transition-all duration-300">
           <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-4 flex items-center justify-between">
             <span className="flex items-center gap-2">
               <Activity className="w-4 h-4 text-primary-cyber" />
@@ -141,12 +141,12 @@ export const AnalyticsCharts: React.FC<ChartsProps> = ({ data }) => {
         </div>
 
         {/* District breakdown (Pie) */}
-        <div className="cyber-panel rounded-lg p-5 border border-border-cyber/30">
+        <div className="cyber-panel rounded-lg p-5 border border-border-cyber/30 flex flex-col hover:border-primary-cyber/60 hover:shadow-[0_0_20px_rgba(0,210,255,0.1)] transition-all duration-300">
           <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-4">
             District Operations Share
           </h3>
-          <div className="h-64 flex flex-col justify-between">
-            <div className="h-44">
+          <div className="h-64 flex flex-col">
+            <div className="h-44 shrink-0">
               {districtData.length === 0 ? (
                 <div className="h-full flex items-center justify-center text-xs text-slate-500 font-mono">
                   NO CASE DATA DETECTED IN ACTIVE LEDGER
@@ -174,7 +174,7 @@ export const AnalyticsCharts: React.FC<ChartsProps> = ({ data }) => {
             </div>
             
             {/* Legend */}
-            <div className="grid grid-cols-2 gap-2 text-[9px] font-mono mt-2 pt-2 border-t border-slate-900">
+            <div className="grid grid-cols-2 gap-2 text-[9px] font-mono mt-2 pt-2 border-t border-slate-900 overflow-y-auto flex-1 pr-1">
               {districtData.map((d, i) => (
                 <div key={d.name} className="flex items-center space-x-1.5">
                   <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: COLORS[i % COLORS.length] }}></span>
@@ -188,7 +188,7 @@ export const AnalyticsCharts: React.FC<ChartsProps> = ({ data }) => {
       </div>
 
       {/* Row 2: Heatmap grid mapping Districts against Offenses */}
-      <div className="cyber-panel rounded-lg p-5 border border-border-cyber/30">
+      <div className="cyber-panel rounded-lg p-5 border border-border-cyber/30 hover:border-primary-cyber/60 hover:shadow-[0_0_20px_rgba(0,210,255,0.1)] transition-all duration-300">
         <h3 className="text-xs font-mono uppercase tracking-wider text-primary-cyber font-bold mb-4 flex items-center gap-2">
           <Grid className="w-4 h-4 text-primary-cyber" />
           STATE-WIDE DISTRICT THREAT HEATMAP (OFFENSE INCIDENCE)
@@ -218,7 +218,7 @@ export const AnalyticsCharts: React.FC<ChartsProps> = ({ data }) => {
                     return (
                       <div 
                         key={cat} 
-                        className={`p-2.5 text-center border rounded transition-all duration-300 ${getHeatmapColorClass(count)}`}
+                        className={`p-2.5 text-center border rounded transition-all duration-300 hover:scale-110 hover:z-10 relative cursor-crosshair hover:shadow-[0_0_15px_rgba(0,210,255,0.4)] ${getHeatmapColorClass(count)}`}
                         title={`${dist} - ${cat}: ${count} cases`}
                       >
                         {count}
@@ -256,7 +256,7 @@ export const AnalyticsCharts: React.FC<ChartsProps> = ({ data }) => {
       {/* Row 3: Categories Chart & District CASERATIO List */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         {/* Categories Bar Chart */}
-        <div className="cyber-panel rounded-lg p-5 border border-border-cyber/30 xl:col-span-2">
+        <div className="cyber-panel rounded-lg p-5 border border-border-cyber/30 xl:col-span-2 hover:border-primary-cyber/60 hover:shadow-[0_0_20px_rgba(0,210,255,0.1)] transition-all duration-300">
           <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-4">
             Offense Classification Breakdown
           </h3>
@@ -284,7 +284,7 @@ export const AnalyticsCharts: React.FC<ChartsProps> = ({ data }) => {
         </div>
 
         {/* District CASERATIO List */}
-        <div className="cyber-panel rounded-lg p-5 border border-border-cyber/30 flex flex-col justify-between">
+        <div className="cyber-panel rounded-lg p-5 border border-border-cyber/30 flex flex-col justify-between hover:border-primary-cyber/60 hover:shadow-[0_0_20px_rgba(0,210,255,0.1)] transition-all duration-300">
           <div>
             <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
               <Shield className="w-4 h-4 text-slate-400" />
